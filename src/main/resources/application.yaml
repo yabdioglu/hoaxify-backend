@@ -5,3 +5,10 @@
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
+spring:
+  jpa:
+    properties:
+      javax:
+        persistence:
+          validation:
+            mode: none
