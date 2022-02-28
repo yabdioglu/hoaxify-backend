@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         //Spring'e Authentication kontrolü yap diyoruz.
         http
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/api/1.0/users").authenticated()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/api/1.0/auth").authenticated()
                 .and()
                 .authorizeRequests().anyRequest().permitAll();
 

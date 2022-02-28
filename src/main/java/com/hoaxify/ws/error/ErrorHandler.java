@@ -22,15 +22,15 @@ public class ErrorHandler implements ErrorController {
     @RequestMapping("/error")
     ApiError handleError(WebRequest webRequest) {
         Map<String, Object> attributes = this.errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE, ErrorAttributeOptions.Include.BINDING_ERRORS));
-        String message = (String) attributes.get("message");
+        String message = (String)attributes.get("message");
         String path = (String) attributes.get("path");
         int status = (Integer) attributes.get("status");
 
         ApiError error = new ApiError(status, message, path);
-        if (attributes.containsKey("errors")) {
-            List<FieldError> fieldErrors = (List<FieldError>) attributes.get("errors");
+        if(attributes.containsKey("errors")) {
+            List<FieldError> fieldErrors = (List<FieldError>)attributes.get("errors");
             Map<String, String> validationErrors = new HashMap<>();
-            for (FieldError fieldError : fieldErrors) {
+            for(FieldError fieldError: fieldErrors) {
                 validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
             error.setValidationErrors(validationErrors);
