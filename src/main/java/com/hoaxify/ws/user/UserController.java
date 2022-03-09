@@ -2,6 +2,7 @@ package com.hoaxify.ws.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hoaxify.ws.shared.GenericResponse;
+import com.hoaxify.ws.shared.Views;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/api/1.0/users")
-//    @JsonView(Views.Base.class)
+    @JsonView(Views.Base.class)
     Page<User> getUsers(Pageable pageable){
         return userService.getUsers(pageable);
     }
