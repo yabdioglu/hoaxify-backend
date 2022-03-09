@@ -24,8 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/api/1.0/users")
-    @JsonView(Views.Base.class)
-    Page<User> getUsers(Pageable pageable){
+    Page<UserProjection> getUsers(Pageable pageable){
         return userService.getUsers(pageable);
     }
 }
