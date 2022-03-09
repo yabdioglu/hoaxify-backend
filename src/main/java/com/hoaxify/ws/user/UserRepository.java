@@ -7,7 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
-
-    @Query(value = "Select u from User u") //User tablosundaki her şeyi al
-    Page<UserProjection> getAllUsersProjection(Pageable page);
 }
