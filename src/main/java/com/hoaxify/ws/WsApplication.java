@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class WsApplication {
@@ -15,8 +16,8 @@ public class WsApplication {
         SpringApplication.run(WsApplication.class, args);
     }
 
-    @Bean
-        //Springin kullandığı bir obje oluyor.Uygulama ayağa kalktıktan sonra bu alanı çalıştırır.
+    @Bean//Springin kullandığı bir obje oluyor.Uygulama ayağa kalktıktan sonra bu alanı çalıştırır.
+    @Profile("dev") // Bu method sadece dev profilinde çalışsın.
     CommandLineRunner createInitialUsers(UserService userService) {
         return (args) -> {
             for (int i = 1; i <=25; i++) {
