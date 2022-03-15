@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public Page<User> getUsers(Pageable pageable, User user) {
-        if(user != null){
+        if (user != null) {
             return userRepository.findByUsernameNot(user.getUsername(), pageable);
         }
         return userRepository.findAll(pageable);
@@ -41,7 +41,7 @@ public class UserService {
 
     public User getByUsername(String username) {
         User inDB = userRepository.findByUsername(username);
-        if(inDB == null){
+        if (inDB == null) {
             throw new NotFoundException();
         }
         return inDB;
@@ -50,13 +50,15 @@ public class UserService {
     public User updateUser(String username, UserUpdateVM updatedUser) {
         User inDB = getByUsername(username);
         inDB.setDisplayName(updatedUser.getDisplayName());
-        if(updatedUser.getImage() != null){
+        if (updatedUser.getImage() != null) {
+            String oldImageName = inDB.getImage();
             try {
                 String storedFileName = fileService.writeBase64EncodedStringToFile(updatedUser.getImage());
                 inDB.setImage(storedFileName);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            fileService.deleteFile(oldImageName);
         }
         return userRepository.save(inDB);
     }
