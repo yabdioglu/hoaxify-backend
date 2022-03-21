@@ -36,6 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //http.httpBasic() kısmı authentication türümüzü belirtiyor.
         http.httpBasic().authenticationEntryPoint(new AuthEntryPoint());
 
+        http.headers().frameOptions().disable();
+
         //Spring'e Authentication kontrolü yap diyoruz.
         http
                 .authorizeRequests()
