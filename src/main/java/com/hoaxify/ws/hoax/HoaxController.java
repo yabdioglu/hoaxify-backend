@@ -20,4 +20,9 @@ public class HoaxController {
         hoaxService.save(hoax);
         return new GenericResponse("Hoax is saved");
     }
+
+    @GetMapping("/hoaxes")
+    public Page<Hoax> getHoaxes(Pageable pageable){
+        return hoaxService.getHoaxes(pageable);
+    }
 }
