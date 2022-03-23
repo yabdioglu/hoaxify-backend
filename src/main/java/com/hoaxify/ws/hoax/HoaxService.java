@@ -1,6 +1,5 @@
 package com.hoaxify.ws.hoax;
 
-import com.hoaxify.ws.hoax.vm.HoaxVM;
 import com.hoaxify.ws.user.User;
 import com.hoaxify.ws.user.UserService;
 import org.springframework.data.domain.Page;
@@ -38,5 +37,10 @@ public class HoaxService {
 
     public Page<Hoax> getOldHoaxes(long id, Pageable pageable) {
         return hoaxRepository.findByIdLessThan(id,pageable);
+    }
+
+    public Page<Hoax> getOldHoaxesOfUser(long id, String username, Pageable pageable) {
+        User inDB = userService.getByUsername(username);
+        return hoaxRepository.findByIdLessThanAndUser(id, inDB, pageable);
     }
 }
