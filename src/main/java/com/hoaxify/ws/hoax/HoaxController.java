@@ -31,6 +31,11 @@ public class HoaxController {
         return hoaxService.getHoaxes(pageable).map(HoaxVM::new);
     }
 
+    @GetMapping("/hoaxes/{id:[0-9]+}")
+    public Page<HoaxVM> getHoaxesRelative(@PageableDefault(sort = "id" , direction = Direction.DESC) Pageable pageable, @PathVariable long id){
+        return hoaxService.getOldHoaxes(id, pageable).map(HoaxVM::new);
+    }
+
     @GetMapping("/users/{username}/hoaxes")
     public Page<HoaxVM> getUserHoaxes(@PathVariable String username, @PageableDefault(sort = "id" , direction = Direction.DESC) Pageable pageable){
         return hoaxService.getUserHoaxes(username, pageable).map(HoaxVM::new);
