@@ -1,6 +1,8 @@
 package com.hoaxify.ws.hoax;
 
+import com.hoaxify.ws.hoax.vm.HoaxVM;
 import com.hoaxify.ws.user.User;
+import com.hoaxify.ws.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,11 @@ public class HoaxService {
 
     HoaxRepository hoaxRepository;
 
-    public HoaxService(HoaxRepository hoaxRepository) {
+    UserService userService;
+
+    public HoaxService(HoaxRepository hoaxRepository, UserService userService) {
         this.hoaxRepository = hoaxRepository;
+        this.userService = userService;
     }
 
     public void save(Hoax hoax, User user) {
@@ -24,5 +29,10 @@ public class HoaxService {
 
     public Page<Hoax> getHoaxes(Pageable pageable) {
         return hoaxRepository.findAll(pageable);
+    }
+
+    public Page<Hoax> getUserHoaxes(String username, Pageable pageable) {
+        User inDB = userService.getByUsername(username);
+        return hoaxRepository.findByUser(inDB, pageable);
     }
 }
