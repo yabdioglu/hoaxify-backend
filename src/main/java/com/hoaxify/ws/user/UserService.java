@@ -9,8 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.Base64;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -58,7 +56,7 @@ public class UserService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            fileService.deleteFile(oldImageName);
+            fileService.deleteProfileImage(oldImageName);
         }
         return userRepository.save(inDB);
     }
