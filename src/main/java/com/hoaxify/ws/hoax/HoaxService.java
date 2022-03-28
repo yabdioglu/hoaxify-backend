@@ -98,5 +98,9 @@ public class HoaxService {
             return criteriaBuilder.greaterThan(root.get("id"), id);
         };
     }
+
+    public void delete(long id) {
+        hoaxRepository.deleteById(id);
+    }
 }
 

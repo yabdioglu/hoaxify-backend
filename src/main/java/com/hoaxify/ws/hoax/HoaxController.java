@@ -63,4 +63,10 @@ public class HoaxController {
         return hoaxService.getUserHoaxes(username, pageable).map(HoaxVM::new);
     }
 
+    @DeleteMapping("/hoaxes/{id:[0-9]+}")
+    public GenericResponse deleteHoax(@PathVariable long id) {
+        hoaxService.delete(id);
+        return new GenericResponse("Hoax removed");
+    }
+
 }
