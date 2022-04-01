@@ -1,6 +1,5 @@
 package com.hoaxify.ws.user;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

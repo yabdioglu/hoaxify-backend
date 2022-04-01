@@ -6,6 +6,7 @@ import com.hoaxify.ws.file.FileService;
 import com.hoaxify.ws.hoax.vm.HoaxSubmitVM;
 import com.hoaxify.ws.user.User;
 import com.hoaxify.ws.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,11 +28,17 @@ public class HoaxService {
 
     FileService fileService;
 
-    public HoaxService(HoaxRepository hoaxRepository, UserService userService, FileAttachmentRepository fileAttachmentRepository, FileService fileService) {
+    public HoaxService(HoaxRepository hoaxRepository, FileAttachmentRepository fileAttachmentRepository, FileService fileService) {
         this.hoaxRepository = hoaxRepository;
-        this.userService = userService;
         this.fileAttachmentRepository = fileAttachmentRepository;
         this.fileService = fileService;
+    }
+
+    // UserService ve HoaxService birbirini dependent ettiği için döngüsel hata oluşuyor.
+    //Bu hata çözümü için UserService'i constructor injection yerine bu şekilde setter injection yapıyoruz. UserService initialize edildikten sonra set edecek.
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     public void save(HoaxSubmitVM hoaxSubmitVM, User user) {
@@ -41,7 +48,7 @@ public class HoaxService {
         hoax.setUser(user);
         hoaxRepository.save(hoax);
         Optional<FileAttachment> optionalFileAttachment = fileAttachmentRepository.findById(hoaxSubmitVM.getAttachmentId());
-        if(optionalFileAttachment.isPresent()) {
+        if (optionalFileAttachment.isPresent()) {
             FileAttachment fileAttachment = optionalFileAttachment.get();
             fileAttachment.setHoax(hoax);
             fileAttachmentRepository.save(fileAttachment);
@@ -105,11 +112,18 @@ public class HoaxService {
 
     public void delete(long id) {
         Hoax inDB = hoaxRepository.getById(id);
-        if(inDB.getFileAttachment() != null) {
+        if (inDB.getFileAttachment() != null) {
             String fileName = inDB.getFileAttachment().getName();
             fileService.deleteAttachmentFile(fileName);
         }
         hoaxRepository.deleteById(id);
+    }
+
+    public void deleteHoaxesOfUser(String username) {
+        User inDB = userService.getByUsername(username);
+        Specification<Hoax> userOwned = userIs(inDB);
+        List<Hoax> hoaxesToBeRemoved = hoaxRepository.findAll(userOwned);
+        hoaxRepository.deleteAll(hoaxesToBeRemoved);
     }
 }
 
