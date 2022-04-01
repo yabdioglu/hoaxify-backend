@@ -12,6 +12,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findByUsernameNot(String username, Pageable page); // Bu username'e sahip olmayanları getir.
 
-    @Transactional // Transaction yoksa Spring bizim yerimize bir transaction oluşturuyor.
-    void deleteByUsername(String username);
 }

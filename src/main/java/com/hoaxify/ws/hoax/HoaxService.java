@@ -28,16 +28,10 @@ public class HoaxService {
 
     FileService fileService;
 
-    public HoaxService(HoaxRepository hoaxRepository, FileAttachmentRepository fileAttachmentRepository, FileService fileService) {
+    public HoaxService(HoaxRepository hoaxRepository, FileAttachmentRepository fileAttachmentRepository, FileService fileService, UserService userService) {
         this.hoaxRepository = hoaxRepository;
         this.fileAttachmentRepository = fileAttachmentRepository;
         this.fileService = fileService;
-    }
-
-    // UserService ve HoaxService birbirini dependent ettiği için döngüsel hata oluşuyor.
-    //Bu hata çözümü için UserService'i constructor injection yerine bu şekilde setter injection yapıyoruz. UserService initialize edildikten sonra set edecek.
-    @Autowired
-    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -117,13 +111,6 @@ public class HoaxService {
             fileService.deleteAttachmentFile(fileName);
         }
         hoaxRepository.deleteById(id);
-    }
-
-    public void deleteHoaxesOfUser(String username) {
-        User inDB = userService.getByUsername(username);
-        Specification<Hoax> userOwned = userIs(inDB);
-        List<Hoax> hoaxesToBeRemoved = hoaxRepository.findAll(userOwned);
-        hoaxRepository.deleteAll(hoaxesToBeRemoved);
     }
 }
 
