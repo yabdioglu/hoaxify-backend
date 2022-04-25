@@ -19,8 +19,7 @@ public class WsApplication {
     }
 
     @Bean//Springin kullandığı bir obje oluyor.Uygulama ayağa kalktıktan sonra bu alanı çalıştırır.
-    @Profile("dev")
-        // Bu method sadece dev profilinde çalışsın.
+    @Profile("dev")// Bu method sadece dev profilinde çalışsın.
     CommandLineRunner createInitialUsers(UserService userService, HoaxService hoaxService) {
         return (args) -> {
             try {
