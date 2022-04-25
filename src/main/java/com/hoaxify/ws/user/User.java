@@ -41,9 +41,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE) //mappedBy ile hoax sayfasında userid gösterilir.
     private List<Hoax> hoaxes;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Token> tokens;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
