@@ -30,5 +30,17 @@ spring:
   config:
     activate:
       on-profile: dev
+  h2:
+    console:
+      enabled: true
+      path: /h2
+    datasource:
+      url: jdbc:h2:./devdb
+      username: sa
+      password:
+      driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
 hoaxify:
   upload-path: storage-dev
